@@ -10,9 +10,11 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :vystoria, VystoriaWeb.Endpoint,
-  http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [:inet6, port: 4000],
+  url: [host: "ec2-18-231-170-165.sa-east-1.compute.amazonaws.com", port: 80],
+  server: true,
+  root: ".",
+  version: Mix.Project.config()[:version]
 
 # Do not print debug messages in production
 config :logger, level: :info

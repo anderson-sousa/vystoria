@@ -7,17 +7,11 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :vystoria, VystoriaWeb.Endpoint,
-  # http: [port: 4000],
-  https: [
-    port: 4001,
-    cipher_suite: :strong,
-    keyfile: "priv/cert/selfsigned_key.pem",
-    certfile: "priv/cert/selfsigned.pem"
-  ],
-  debug_errors: true,
-  code_reloader: true,
-  check_origin: false,
-  watchers: []
+  http: [port: {:system, "PORT"}],
+  url: [port: {:system, "PORT"}],
+  server: true,
+  root: ".",
+  version: Mix.Project.config()[:version]
 
 # ## SSL Support
 #
@@ -55,8 +49,7 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :vystoria, Vystoria.Repo,
-  username: "vystoria",
-  password: "vystoria",
-  database: "vystoria_dev",
-  hostname: "localhost",
-  pool_size: 10
+  adapter: Ecto.Adapters.Postgres,
+  url:
+    "postgres://vystoria:e8P9e3gDC7Zf6FY@vystoria-dev.ce4nq5dtpr8z.sa-east-1.rds.amazonaws.com/vystoria",
+  pool_size: 15

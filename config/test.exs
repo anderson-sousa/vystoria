@@ -9,10 +9,13 @@ config :vystoria, VystoriaWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+# speed up
+config :bcrypt_elixir, :log_rounds, 4
+
 # Configure your database
 config :vystoria, Vystoria.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "vystoria_test",
-  hostname: "localhost",
+  username: System.get_env("POSTGRES_USER") || "vystoria",
+  password: System.get_env("POSTGRES_PASSWORD") || "vystoria",
+  database: System.get_env("POSTGRES_DB") || "vystoria_test",
+  hostname: System.get_env("POSTGRES_HOST") || "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

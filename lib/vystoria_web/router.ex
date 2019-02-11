@@ -17,10 +17,13 @@ defmodule VystoriaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/verify", UserController, :verify_email
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", VystoriaWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", VystoriaWeb do
+    pipe_through :api
+
+    get "/", HelloController, :index
+    resources "/users", UserController, only: [:create, :show]
+  end
 end

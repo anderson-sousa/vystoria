@@ -1,0 +1,27 @@
+APP="vystoria"
+
+BUILD_HOST="ec2-18-231-170-165.sa-east-1.compute.amazonaws.com"
+BUILD_USER="builder"
+BUILD_AT="/home/$BUILD_USER/$APP/builds"
+
+STAGING_HOSTS="ec2-18-231-170-165.sa-east-1.compute.amazonaws.com"
+STAGING_USER="deploy"
+DELIVER_TO="/home/$STAGING_USER"
+
+# For *Phoenix* projects, symlink prod.secret.exs to our tmp source
+pre_erlang_get_and_update_deps() {
+  __sync_remote "
+    cp '/home/$BUILD_USER/prod.secret.exs' '$BUILD_AT/config/prod.secret.exs'
+  "
+}
+
+pre_erlang_clean_compile() {
+  status "Running phoenix.digest"
+  __sync_remote "
+    [ -f ~/.profile ] && source ~/.profile
+    set -e
+
+    cd '$BUILD_AT'
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phx.digest $SILENCE
+  "
+}
