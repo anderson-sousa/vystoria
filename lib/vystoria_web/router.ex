@@ -13,6 +13,10 @@ defmodule VystoriaWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_authenticated do
+    plug VystoriaWeb.Plug.VerifyHeader
+  end
+
   scope "/", VystoriaWeb do
     pipe_through :browser
 
@@ -21,9 +25,21 @@ defmodule VystoriaWeb.Router do
   end
 
   scope "/api/v1", VystoriaWeb do
-    pipe_through :api
+    pipe_through(:api)
 
     get "/", HelloController, :index
     resources "/users", UserController, only: [:create, :show]
+
+    scope "/sessions" do
+      post "/sign_in", SessionController, :create
+    end
+  end
+
+  scope "/api/v1", VystoriaWeb do
+    pipe_through(:api_authenticated)
+
+    scope "/sessions" do
+      delete "/sign_out", SessionController, :delete
+    end
   end
 end

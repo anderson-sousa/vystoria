@@ -14,7 +14,12 @@ defmodule VystoriaWeb.UserControllerTest do
   #   email: "some updated email",
   #   password_hash: "some updated password_hash"
   # }
-  @invalid_attrs %{first_name: nil, last_name: nil, email: nil, password_hash: nil}
+  @invalid_attrs %{
+    first_name: nil,
+    last_name: nil,
+    email: nil,
+    password_hash: nil
+  }
 
   def fixture(:user) do
     {:ok, user} = Accounts.create_user(@create_attrs)
@@ -57,19 +62,19 @@ defmodule VystoriaWeb.UserControllerTest do
       user = fixture(:user)
       token = Vystoria.Auth.get_user_token(user)
 
-      conn = conn
-      |> put_req_header("accept", "text/html")
-      |> get(Routes.user_path(conn, :verify_email, token: token))
+      conn =
+        conn
+        |> put_req_header("accept", "text/html")
+        |> get(Routes.user_path(conn, :verify_email, token: token))
 
       assert html_response(conn, 200) =~ "Conta confirmada!"
     end
 
     test "render error on confirmation account", %{conn: conn} do
-      user = fixture(:user)
-
-      conn = conn
-      |> put_req_header("accept", "text/html")
-      |> get(Routes.user_path(conn, :verify_email, token: ""))
+      conn =
+        conn
+        |> put_req_header("accept", "text/html")
+        |> get(Routes.user_path(conn, :verify_email, token: ""))
 
       assert html_response(conn, 200) =~ "Endereço inválido."
     end

@@ -50,6 +50,5 @@ config :phoenix, :plug_init_mode, :runtime
 # Configure your database
 config :vystoria, Vystoria.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url:
-    "postgres://vystoria:e8P9e3gDC7Zf6FY@vystoria-dev.ce4nq5dtpr8z.sa-east-1.rds.amazonaws.com/vystoria",
+  url: "postgres://vystoria:e8P9e3gDC7Zf6FY@vystoria-dev.ce4nq5dtpr8z.sa-east-1.rds.amazonaws.com/vystoria",
   pool_size: 15
