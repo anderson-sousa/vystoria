@@ -35,8 +35,16 @@ mix test
 
 ## On prod
 
+### Up and Running
+
 ```shell
 mix deps.get
 cd assets && npm i && npx webpack --mode production && cd ..
 MIX_ENV=prod elixir --detached -S mix do compile, phx.server
+```
+
+### Connect with database
+
+```shell
+psql -h vystoria-dev.ce4nq5dtpr8z.sa-east-1.rds.amazonaws.com -p 5432 -U vystoria vystoria
 ```
