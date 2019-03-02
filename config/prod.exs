@@ -10,17 +10,8 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :vystoria, VystoriaWeb.Endpoint,
-  http: [:inet6, port: 80],
-  # url: [host: "ec2-18-231-170-165.sa-east-1.compute.amazonaws.com", port: 80],
-  url: [host: "vystoria.ga", port: 443],
-  https: [
-    :inet6,
-    port: 443,
-    cipher_suite: :strong,
-    keyfile: "/etc/letsencrypt/live/vystoria.ga/fullchain.pem",
-    certfile: "/etc/letsencrypt/live/vystoria.ga/cert.pem",
-    cacertfile: "/etc/letsencrypt/live/vystoria.ga/chain.pem"
-  ],
+  http: [:inet6, port: 4001],
+  url: [scheme: "https", host: "vystoria.ga", port: 443],
   server: true,
   root: ".",
   version: Mix.Project.config()[:version]
