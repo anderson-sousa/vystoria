@@ -20,7 +20,7 @@ config :vystoria, VystoriaWeb.Endpoint,
     keyfile: "/etc/letsencrypt/live/vystoria.ga/fullchain.pem",
     certfile: "/etc/letsencrypt/live/vystoria.ga/cert.pem",
     cacertfile: "/etc/letsencrypt/live/vystoria.ga/chain.pem"
-  ]
+  ],
   server: true,
   root: ".",
   version: Mix.Project.config()[:version]
