@@ -48,7 +48,8 @@ defmodule Vystoria.MixProject do
       {:comeonin, "~> 4.1.2"},
       {:bcrypt_elixir, "~> 1.1.1"},
       {:bamboo, "~> 1.2.0"},
-      {:bamboo_smtp, "~> 1.6.0"}
+      {:bamboo_smtp, "~> 1.6.0"},
+      {:timber, "~> 3.1"},
     ]
   end
 
