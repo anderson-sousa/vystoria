@@ -52,6 +52,7 @@ defmodule Vystoria.MixProject do
       {:timber, "~> 3.1"},
       {:timber_plug, "~> 1.0"},
       {:timber_phoenix, "~> 1.0"},
+      {:timber_exceptions, "~> 2.0"},
     ]
   end
 

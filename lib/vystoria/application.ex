@@ -6,6 +6,7 @@ defmodule Vystoria.Application do
   use Application
 
   def start(_type, _args) do
+    :ok = Logger.add_translator({Timber.Exceptions.Translator, :translate})
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
