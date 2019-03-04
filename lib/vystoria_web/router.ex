@@ -2,7 +2,6 @@ defmodule VystoriaWeb.Router do
   use VystoriaWeb, :router
 
   pipeline :browser do
-    plug RemoteIp
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -11,7 +10,6 @@ defmodule VystoriaWeb.Router do
   end
 
   pipeline :api do
-    plug RemoteIp
     plug :accepts, ["json"]
   end
 

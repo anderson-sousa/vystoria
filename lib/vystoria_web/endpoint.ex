@@ -1,6 +1,8 @@
 defmodule VystoriaWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :vystoria
 
+  plug RemoteIp
+
   socket "/socket", VystoriaWeb.UserSocket,
     websocket: true,
     longpoll: false
