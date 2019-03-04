@@ -16,6 +16,10 @@ config :vystoria, VystoriaWeb.Endpoint,
   root: ".",
   version: Mix.Project.config()[:version]
 
+config :vystoria,
+  ecto_repos: [Vystoria.Repo],
+  log: false
+
 # Do not print debug messages in production
 # config :logger, level: :info
 
