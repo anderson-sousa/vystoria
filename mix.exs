@@ -49,11 +49,14 @@ defmodule Vystoria.MixProject do
       {:bcrypt_elixir, "~> 1.1.1"},
       {:bamboo, "~> 1.2.0"},
       {:bamboo_smtp, "~> 1.6.0"},
+
+      # Log management
       {:timber, "~> 3.1"},
       {:timber_plug, "~> 1.0"},
       {:timber_phoenix, "~> 1.0"},
       {:timber_exceptions, "~> 2.0"},
       {:timber_ecto, "~> 2.0"},
+      {:remote_ip, "~> 0.1.0"},
     ]
   end
 
