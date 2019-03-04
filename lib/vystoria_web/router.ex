@@ -2,6 +2,7 @@ defmodule VystoriaWeb.Router do
   use VystoriaWeb, :router
 
   pipeline :browser do
+    plug RemoteIp
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -10,6 +11,7 @@ defmodule VystoriaWeb.Router do
   end
 
   pipeline :api do
+    plug RemoteIp
     plug :accepts, ["json"]
   end
 
@@ -42,6 +44,7 @@ defmodule VystoriaWeb.Router do
   end
 
   scope "/api/v1", VystoriaWeb do
+    pipe_through(:api)
     pipe_through(:api_authenticated)
     if Mix.env() == :prod, do: pipe_through(:logging)
 
