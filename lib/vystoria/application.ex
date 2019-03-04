@@ -10,7 +10,7 @@ defmodule Vystoria.Application do
     :ok = Logger.add_translator({Timber.Exceptions.Translator, :translate})
     :ok = :telemetry.attach(
       "timber-ecto-query-handler",
-      [:my_app, :repo, :query],
+      [:vystoria, :repo, :query],
       &Timber.Ecto.handle_event/4,
       []
     )
