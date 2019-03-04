@@ -24,7 +24,8 @@ config :logger,
   level: :info
 
 config :timber,
-  api_key: "11467_3e3b742e614876a0:2be6068149762cb4a0ac73b21835bb6ea9c036b264299abd81205fb6d832bf4d"
+  api_key: "11467_3e3b742e614876a0:2be6068149762cb4a0ac73b21835bb6ea9c036b264299abd81205fb6d832bf4d",
+  ec2_context: true
 
 # ## SSL Support
 #

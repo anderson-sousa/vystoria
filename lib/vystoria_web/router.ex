@@ -13,12 +13,17 @@ defmodule VystoriaWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :logging do
+    plug Timber.Plug.Event
+  end
+
   pipeline :api_authenticated do
     plug VystoriaWeb.Plug.VerifyHeader
   end
 
   scope "/", VystoriaWeb do
-    pipe_through :browser
+    pipe_through(:browser)
+    if Mix.env() == :prod, do: pipe_through(:logging)
 
     get "/", PageController, :index
     get "/verify", UserController, :verify_email
@@ -26,6 +31,7 @@ defmodule VystoriaWeb.Router do
 
   scope "/api/v1", VystoriaWeb do
     pipe_through(:api)
+    if Mix.env() == :prod, do: pipe_through(:logging)
 
     get "/", HelloController, :index
     resources "/users", UserController, only: [:create, :show]
@@ -37,6 +43,7 @@ defmodule VystoriaWeb.Router do
 
   scope "/api/v1", VystoriaWeb do
     pipe_through(:api_authenticated)
+    if Mix.env() == :prod, do: pipe_through(:logging)
 
     scope "/sessions" do
       delete "/sign_out", SessionController, :delete
