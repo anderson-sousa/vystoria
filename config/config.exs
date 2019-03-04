@@ -15,7 +15,8 @@ config :vystoria, VystoriaWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "hN+wo4Soq6tS0vVR/0cBmF3s9Corlz1houb3O2Pm5Nbt1MDxeTs3gYG7PaRgJ3/o",
   render_errors: [view: VystoriaWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Vystoria.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Vystoria.PubSub, adapter: Phoenix.PubSub.PG2],
+  instrumenters: [Timber.Phoenix]
 
 # Configures Elixir's Logger
 config :logger, :console,

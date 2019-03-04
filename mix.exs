@@ -51,6 +51,7 @@ defmodule Vystoria.MixProject do
       {:bamboo_smtp, "~> 1.6.0"},
       {:timber, "~> 3.1"},
       {:timber_plug, "~> 1.0"},
+      {:timber_phoenix, "~> 1.0"},
     ]
   end
 
