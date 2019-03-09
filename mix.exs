@@ -47,6 +47,8 @@ defmodule Vystoria.MixProject do
       {:distillery, "~> 2.0", warn_missing: false},
       {:comeonin, "~> 4.1.2"},
       {:bcrypt_elixir, "~> 1.1.1"},
+
+      # email
       {:bamboo, "~> 1.2.0"},
       {:bamboo_smtp, "~> 1.6.0"},
 
@@ -57,6 +59,15 @@ defmodule Vystoria.MixProject do
       {:timber_exceptions, "~> 2.0"},
       {:timber_ecto, "~> 2.0"},
       {:remote_ip, "~> 0.1.0"},
+
+      # s3
+      {:ex_aws, "~> 2.1"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"},
+
+      # timezone
+      {:tzdata, "~> 1.0.0-rc.0"},
     ]
   end
 

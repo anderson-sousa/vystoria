@@ -13,6 +13,7 @@ defmodule Vystoria.Accounts.User do
     field(:password, :string, virtual: true)
 
     has_many :sessions, Vystoria.Auth.Session
+    has_many :photos, Vystoria.Images.Photo
 
     timestamps()
   end

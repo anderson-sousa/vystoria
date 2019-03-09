@@ -7,6 +7,8 @@
 # General application configuration
 use Mix.Config
 
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 config :vystoria,
   ecto_repos: [Vystoria.Repo]
 
@@ -42,6 +44,18 @@ config :vystoria, Vystoria.Mailer,
   ssl: false,
   retries: 1
 
-# Import environment specific config. This must remain at the bottom
+config :ex_aws,
+  access_key_id: "AKIAJWG3Y4PMINWTLFKQ",
+  secret_access_key: "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",
+  s3: [
+    scheme: "https://",
+    host: "vystoria.s3.amazonaws.com",
+    region: "sa-east-1"
+  ]
+
+config :ex_aws, :hackney_opts,
+  recv_timeout: 300_000
+
+ # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

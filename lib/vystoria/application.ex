@@ -8,12 +8,15 @@ defmodule Vystoria.Application do
   def start(_type, _args) do
     # timber conffigurations
     :ok = Logger.add_translator({Timber.Exceptions.Translator, :translate})
-    :ok = :telemetry.attach(
-      "timber-ecto-query-handler",
-      [:vystoria, :repo, :query],
-      &Timber.Ecto.handle_event/4,
-      []
-    )
+
+    :ok =
+      :telemetry.attach(
+        "timber-ecto-query-handler",
+        [:vystoria, :repo, :query],
+        &Timber.Ecto.handle_event/4,
+        []
+      )
+
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository

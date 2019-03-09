@@ -34,7 +34,7 @@ defmodule VystoriaWeb.Router do
     if Mix.env() == :prod, do: pipe_through(:logging)
 
     get "/", HelloController, :index
-    resources "/users", UserController, only: [:create, :show]
+    resources "/users", UserController, only: [:create]
 
     scope "/sessions" do
       post "/sign_in", SessionController, :create
@@ -45,6 +45,8 @@ defmodule VystoriaWeb.Router do
     pipe_through(:api)
     pipe_through(:api_authenticated)
     if Mix.env() == :prod, do: pipe_through(:logging)
+
+    resources "/photos", PhotoController, only: [:create]
 
     scope "/sessions" do
       delete "/sign_out", SessionController, :delete
