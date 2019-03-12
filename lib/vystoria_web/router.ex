@@ -9,6 +9,10 @@ defmodule VystoriaWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :upload do
+    plug :accepts, ["html"]
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -46,10 +50,16 @@ defmodule VystoriaWeb.Router do
     pipe_through(:api_authenticated)
     if Mix.env() == :prod, do: pipe_through(:logging)
 
-    resources "/photos", PhotoController, only: [:create]
-
     scope "/sessions" do
       delete "/sign_out", SessionController, :delete
     end
+  end
+
+  scope "/api/v1", VystoriaWeb do
+    pipe_through(:api_authenticated)
+    pipe_through(:upload)
+    if Mix.env() == :prod, do: pipe_through(:logging)
+
+    resources "/photos", PhotoController, only: [:create]
   end
 end
