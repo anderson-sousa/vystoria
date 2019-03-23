@@ -21,8 +21,8 @@ defmodule VystoriaWeb.Plug.VerifyHeader do
       {:error, :token_not_found} ->
         unauthorized(conn, "token not found")
 
-      _ ->
-        unauthorized(conn, "internal error")
+      {:error, :expired} ->
+        unauthorized(conn, "session expired")
     end
   end
 
