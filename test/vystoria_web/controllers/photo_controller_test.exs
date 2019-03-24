@@ -1,20 +1,19 @@
 defmodule VystoriaWeb.PhotoControllerTest do
   use VystoriaWeb.ConnCase
+  import Vystoria.Factory
 
   alias Vystoria.Images
-  alias Vystoria.Images.Photo
+  # alias Vystoria.Images.Photo
 
   @create_attrs %{
     url: "some url",
     user_id: "some user_id"
   }
-  @update_attrs %{
-    url: "some updated url",
-    user_id: "some updated user_id"
-  }
+  # @update_attrs %{
+  #   url: "some updated url",
+  #   user_id: "some updated user_id"
+  # }
   @invalid_attrs %{url: nil, user_id: nil}
-
-  @file_transparent "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
 
   def fixture(:photo) do
     {:ok, photo} = Images.create_photo(@create_attrs)
@@ -34,23 +33,25 @@ defmodule VystoriaWeb.PhotoControllerTest do
 
   describe "create photo" do
     test "renders photo when data is valid", %{conn: conn} do
-      # TODO: create user and session
-      conn = post(conn, Routes.photo_path(conn, :create), file: @file_transparent)
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      session = insert(:session)
+      upload = %Plug.Upload{path: "test/fixtures/small.png", filename: "small.png"}
 
-      conn = get(conn, Routes.photo_path(conn, :show, id))
+      response =
+        conn
+        |> put_req_header("authorization", "Bearer #{session.token}")
+        |> put_req_header("accept", "text/html")
+        |> post(Routes.photo_path(conn, :create), upload: upload)
 
-      assert %{
-               "id" => id,
-               "url" => "some url",
-               "user_id" => "some user_id"
-             } = json_response(conn, 200)["data"]
+      data = json_response(response, 201)["data"]
+      assert is_integer(data["id"])
+      uuid = String.slice(data["url"], 49..84)
+      assert Regex.match?(~r/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/, uuid)
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.photo_path(conn, :create), photo: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
-    end
+    # test "renders errors when data is invalid", %{conn: conn} do
+    #   conn = post(conn, Routes.photo_path(conn, :create), photo: @invalid_attrs)
+    #   assert json_response(conn, 422)["errors"] != %{}
+    # end
   end
 
   # describe "update photo" do
@@ -88,8 +89,8 @@ defmodule VystoriaWeb.PhotoControllerTest do
   #   end
   # end
 
-  defp create_photo(_) do
-    photo = fixture(:photo)
-    {:ok, photo: photo}
-  end
+  # defp create_photo(_) do
+  #   photo = fixture(:photo)
+  #   {:ok, photo: photo}
+  # end
 end

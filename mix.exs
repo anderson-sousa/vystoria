@@ -68,6 +68,9 @@ defmodule Vystoria.MixProject do
 
       # timezone
       {:tzdata, "~> 1.0.0-rc.0"},
+
+      # test
+      {:ex_machina, "~> 2.3", only: :test}
     ]
   end
 

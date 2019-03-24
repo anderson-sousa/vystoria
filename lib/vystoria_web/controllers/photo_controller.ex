@@ -28,6 +28,7 @@ defmodule VystoriaWeb.PhotoController do
       url: "https://s3-sa-east-1.amazonaws.com/vystoria/#{Atom.to_string(Mix.env())}/#{filename}",
       user_id: conn.assigns.session.user.id
     }
+
     with {:ok, %Images.Photo{} = photo} <- Images.create_photo(photo_params) do
       conn
       |> put_status(:created)

@@ -12,6 +12,7 @@ defmodule Vystoria.ImagesTest do
 
     def photo_fixture(attrs \\ %{}) do
       user = user_fixture()
+
       {:ok, photo} =
         attrs
         |> Enum.into(Map.put(@valid_attrs, :user_id, user.id))
@@ -31,7 +32,7 @@ defmodule Vystoria.ImagesTest do
         })
         |> Vystoria.Accounts.create_user()
 
-        user
+      user
     end
 
     test "list_photos/0 returns all photos" do
