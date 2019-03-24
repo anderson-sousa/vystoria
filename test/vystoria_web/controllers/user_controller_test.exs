@@ -1,5 +1,6 @@
 defmodule VystoriaWeb.UserControllerTest do
   use VystoriaWeb.ConnCase
+  import Vystoria.Factory
 
   alias Vystoria.Accounts
   # alias Vystoria.Accounts.User
@@ -39,21 +40,41 @@ defmodule VystoriaWeb.UserControllerTest do
 
   describe "create user" do
     test "renders user when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
+      response = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
 
-      assert %{
-               "first_name" => "Jose",
-               "last_name" => "Silva",
-               "is_active" => false,
-               "is_push_notifications_activated" => true,
-               "is_email_notifications_activated" => true,
-               "email" => "jose.silva@email.com"
-             } = json_response(conn, 201)["data"]
+      data = json_response(response, 201)["data"]
+      refute data["is_active"]
+      assert is_integer(data["id"])
+      assert @create_attrs.first_name == data["first_name"]
+      assert @create_attrs.last_name == data["last_name"]
+      assert @create_attrs.email == data["email"]
+      assert data["is_push_notifications_activated"]
+      assert data["is_email_notifications_activated"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.user_path(conn, :create), user: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
+    end
+  end
+
+  describe "show user" do
+    test "show user authenticated", %{conn: conn} do
+      session = insert(:session)
+
+      response =
+        conn
+        |> put_req_header("authorization", "Bearer #{session.token}")
+        |> get(Routes.user_path(conn, :show))
+
+        data = json_response(response, 200)["data"]
+        refute data["is_active"]
+        assert is_integer(data["id"])
+        assert session.user.first_name == data["first_name"]
+        assert session.user.last_name == data["last_name"]
+        assert session.user.email == data["email"]
+        assert data["is_push_notifications_activated"]
+        assert data["is_email_notifications_activated"]
     end
   end
 

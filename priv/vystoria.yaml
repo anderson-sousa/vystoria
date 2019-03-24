@@ -87,6 +87,65 @@ paths:
                   format: character varying(255)
         description: Created user object
         required: true
+  /users/me:
+    get:
+      tags:
+        - user
+      summary: Show user
+      description: This can be done only for the user authenticated.
+      operationId: showUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          description: Bearer token
+          required: true
+      responses:
+        '200':
+          description: Successfully show an user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: bigint
+                      first_name:
+                        type: string
+                        format: character varying(255)
+                      last_name:
+                        type: string
+                        format: character varying(255)
+                      is_active:
+                        type: boolean        
+                      is_push_notifications_activated:
+                        type: boolean        
+                      is_email_notifications_activated:
+                        type: boolean
+                      email:
+                        type: string
+                        format: character varying(255)
+        '400':
+            description: Unauthorized.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                      properties:
+                        detail:
+                          type: string
+                          format: character varying(255)
+                          example: token not found/authorization header not present/session invalid
   /sessions/sign_in:
     post:
       tags:
@@ -145,23 +204,18 @@ paths:
       operationId: deleteUserSession
       security:
         - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          description: Bearer token
+          required: true
       responses:
         '204':
           description: Successfully delete a new user session.
-          headers:
-            authorization:
-              schema:
-                type: string
-                format: character varying(255)
-              description: Bearer XXXXXXXXXX
         '400':
           description: Unauthorized.
-          headers:
-            authorization:
-              schema:
-                type: string
-                format: character varying(255)
-              description: Bearer XXXXXXXXXX
           content:
             application/json:
               schema:
