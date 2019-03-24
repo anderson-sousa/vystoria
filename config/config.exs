@@ -34,10 +34,10 @@ config :vystoria, Vystoria.Mailer, adapter: Bamboo.SMTPAdapter
 # Configure mailing
 config :vystoria, Vystoria.Mailer,
   adapter: Bamboo.SMTPAdapter,
-  server: System.get_env("SES_SERVER") || "email-smtp.us-east-1.amazonaws.com",
-  port: System.get_env("SES_PORT") || 587,
-  username: System.get_env("SMTP_USERNAME") || "AKIAIWXT4Z3MR7XITWFQ",
-  password: System.get_env("SMTP_PASSWORD") || "BFM19ed4LkCVs9jIVxcHMgTVZTz8Tigy87irJ1owDQ00",
+  server: System.get_env("SES_SERVER"),
+  port: System.get_env("SES_PORT"),
+  username: System.get_env("SMTP_USERNAME"),
+  password: System.get_env("SMTP_PASSWORD"),
   # can be `:always` or `:never`
   tls: :always,
   # can be `true`
@@ -45,8 +45,8 @@ config :vystoria, Vystoria.Mailer,
   retries: 1
 
 config :ex_aws,
-  access_key_id: "AKIAJWG3Y4PMINWTLFKQ",
-  secret_access_key: "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",
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
   s3: [
     scheme: "https://",
     host: "vystoria.s3.amazonaws.com",

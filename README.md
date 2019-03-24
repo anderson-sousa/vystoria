@@ -20,6 +20,7 @@ CREATE ROLE vystoria WITH LOGIN PASSWORD 'vystoria' CREATEDB; # create user to c
 mix deps.get  # installs the dependencies
 mix ecto.setup  # creates the database and run migrations
 cd assets && npm i && node node_modules/webpack/bin/webpack.js --mode development && cd .. # install browser dependencies
+source .env
 mix phx.server  # run the application
 ```
 
@@ -40,6 +41,7 @@ mix test
 ```shell
 mix deps.get
 cd assets && npm i && npx webpack --mode production && cd ..
+source .env
 MIX_ENV=prod elixir --detached -S mix do compile, phx.server
 ```
 
