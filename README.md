@@ -15,8 +15,6 @@ To run this project, you will need to install the following dependencies on your
 To get started, run the following commands in your project folder:
 
 ```shell
-sudo -u postgres psql # log in psql
-CREATE ROLE vystoria WITH LOGIN PASSWORD 'vystoria' CREATEDB; # create user to connect database
 mix deps.get  # installs the dependencies
 mix ecto.setup  # creates the database and run migrations
 cd assets && npm i && node node_modules/webpack/bin/webpack.js --mode development && cd .. # install browser dependencies

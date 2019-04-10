@@ -55,8 +55,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :vystoria, Vystoria.Repo,
-  username: "vystoria",
-  password: "vystoria",
+  username: "postgres",
+  password: "postgres",
   database: "vystoria_dev",
   hostname: "localhost",
   pool_size: 10
