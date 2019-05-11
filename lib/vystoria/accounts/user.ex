@@ -12,8 +12,10 @@ defmodule Vystoria.Accounts.User do
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
 
-    has_many :sessions, Vystoria.Auth.Session
-    has_many :photos, Vystoria.Images.Photo
+
+    has_many(:sessions, Vystoria.Auth.Session)
+    has_many(:photos, Vystoria.Images.Photo)
+    has_many(:inspections, Vystoria.Inspections.Inspection)
 
     timestamps()
   end
