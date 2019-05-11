@@ -13,7 +13,7 @@ defmodule VystoriaWeb.PhotoControllerTest do
   #   url: "some updated url",
   #   user_id: "some updated user_id"
   # }
-  @invalid_attrs %{url: nil, user_id: nil}
+  # @invalid_attrs %{url: nil, user_id: nil}
 
   def fixture(:photo) do
     {:ok, photo} = Images.create_photo(@create_attrs)

@@ -3,6 +3,8 @@ defmodule Vystoria.InspectionsTest do
 
   alias Vystoria.Inspections
 
+  import Vystoria.Factory
+
   describe "inspections" do
     alias Vystoria.Inspections.Inspection
 
@@ -10,22 +12,13 @@ defmodule Vystoria.InspectionsTest do
     @update_attrs %{motivation: "some updated motivation", status: "some updated status"}
     @invalid_attrs %{motivation: nil, status: nil}
 
-    def inspection_fixture(attrs \\ %{}) do
-      {:ok, inspection} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Inspections.create_inspection()
-
-      inspection
-    end
-
     test "list_inspections/0 returns all inspections" do
-      inspection = inspection_fixture()
+      inspection = insert(:inspection)
       assert Inspections.list_inspections() == [inspection]
     end
 
     test "get_inspection!/1 returns the inspection with given id" do
-      inspection = inspection_fixture()
+      inspection = insert(:inspection)
       assert Inspections.get_inspection!(inspection.id) == inspection
     end
 
@@ -40,26 +33,26 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_inspection/2 with valid data updates the inspection" do
-      inspection = inspection_fixture()
+      inspection = insert(:inspection)
       assert {:ok, %Inspection{} = inspection} = Inspections.update_inspection(inspection, @update_attrs)
       assert inspection.motivation == "some updated motivation"
       assert inspection.status == "some updated status"
     end
 
     test "update_inspection/2 with invalid data returns error changeset" do
-      inspection = inspection_fixture()
+      inspection = insert(:inspection)
       assert {:error, %Ecto.Changeset{}} = Inspections.update_inspection(inspection, @invalid_attrs)
       assert inspection == Inspections.get_inspection!(inspection.id)
     end
 
     test "delete_inspection/1 deletes the inspection" do
-      inspection = inspection_fixture()
+      inspection = insert(:inspection)
       assert {:ok, %Inspection{}} = Inspections.delete_inspection(inspection)
       assert_raise Ecto.NoResultsError, fn -> Inspections.get_inspection!(inspection.id) end
     end
 
     test "change_inspection/1 returns a inspection changeset" do
-      inspection = inspection_fixture()
+      inspection = insert(:inspection)
       assert %Ecto.Changeset{} = Inspections.change_inspection(inspection)
     end
   end
@@ -67,26 +60,33 @@ defmodule Vystoria.InspectionsTest do
   describe "places" do
     alias Vystoria.Inspections.Place
 
-    @valid_attrs %{cep: "some cep", city: "some city", complement: "some complement", flors: 42, number: 42, state: "some state", type: "some type"}
-    @update_attrs %{cep: "some updated cep", city: "some updated city", complement: "some updated complement", flors: 43, number: 43, state: "some updated state", type: "some updated type"}
+    @valid_attrs %{
+      cep: "some cep",
+      city: "some city",
+      complement: "some complement",
+      flors: 42,
+      number: 42,
+      state: "some state",
+      type: "some type"
+    }
+    @update_attrs %{
+      cep: "some updated cep",
+      city: "some updated city",
+      complement: "some updated complement",
+      flors: 43,
+      number: 43,
+      state: "some updated state",
+      type: "some updated type"
+    }
     @invalid_attrs %{cep: nil, city: nil, complement: nil, flors: nil, number: nil, state: nil, type: nil}
 
-    def place_fixture(attrs \\ %{}) do
-      {:ok, place} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Inspections.create_place()
-
-      place
-    end
-
     test "list_places/0 returns all places" do
-      place = place_fixture()
+      place = insert(:place)
       assert Inspections.list_places() == [place]
     end
 
     test "get_place!/1 returns the place with given id" do
-      place = place_fixture()
+      place = insert(:place)
       assert Inspections.get_place!(place.id) == place
     end
 
@@ -106,7 +106,7 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_place/2 with valid data updates the place" do
-      place = place_fixture()
+      place = insert(:place)
       assert {:ok, %Place{} = place} = Inspections.update_place(place, @update_attrs)
       assert place.cep == "some updated cep"
       assert place.city == "some updated city"
@@ -118,19 +118,19 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_place/2 with invalid data returns error changeset" do
-      place = place_fixture()
+      place = insert(:place)
       assert {:error, %Ecto.Changeset{}} = Inspections.update_place(place, @invalid_attrs)
       assert place == Inspections.get_place!(place.id)
     end
 
     test "delete_place/1 deletes the place" do
-      place = place_fixture()
+      place = insert(:place)
       assert {:ok, %Place{}} = Inspections.delete_place(place)
       assert_raise Ecto.NoResultsError, fn -> Inspections.get_place!(place.id) end
     end
 
     test "change_place/1 returns a place changeset" do
-      place = place_fixture()
+      place = insert(:place)
       assert %Ecto.Changeset{} = Inspections.change_place(place)
     end
   end
@@ -138,26 +138,53 @@ defmodule Vystoria.InspectionsTest do
   describe "representatives" do
     alias Vystoria.Inspections.Representative
 
-    @valid_attrs %{address: "some address", cep: "some cep", city: "some city", complement: "some complement", cpf: "some cpf", email: "some email", name: "some name", number: "some number", phone: "some phone", state: "some state", type: "some type"}
-    @update_attrs %{address: "some updated address", cep: "some updated cep", city: "some updated city", complement: "some updated complement", cpf: "some updated cpf", email: "some updated email", name: "some updated name", number: "some updated number", phone: "some updated phone", state: "some updated state", type: "some updated type"}
-    @invalid_attrs %{address: nil, cep: nil, city: nil, complement: nil, cpf: nil, email: nil, name: nil, number: nil, phone: nil, state: nil, type: nil}
-
-    def representative_fixture(attrs \\ %{}) do
-      {:ok, representative} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Inspections.create_representative()
-
-      representative
-    end
+    @valid_attrs %{
+      address: "some address",
+      cep: "some cep",
+      city: "some city",
+      complement: "some complement",
+      cpf: "some cpf",
+      email: "some email",
+      name: "some name",
+      number: "some number",
+      phone: "some phone",
+      state: "some state",
+      type: "some type"
+    }
+    @update_attrs %{
+      address: "some updated address",
+      cep: "some updated cep",
+      city: "some updated city",
+      complement: "some updated complement",
+      cpf: "some updated cpf",
+      email: "some updated email",
+      name: "some updated name",
+      number: "some updated number",
+      phone: "some updated phone",
+      state: "some updated state",
+      type: "some updated type"
+    }
+    @invalid_attrs %{
+      address: nil,
+      cep: nil,
+      city: nil,
+      complement: nil,
+      cpf: nil,
+      email: nil,
+      name: nil,
+      number: nil,
+      phone: nil,
+      state: nil,
+      type: nil
+    }
 
     test "list_representatives/0 returns all representatives" do
-      representative = representative_fixture()
+      representative = insert(:representative)
       assert Inspections.list_representatives() == [representative]
     end
 
     test "get_representative!/1 returns the representative with given id" do
-      representative = representative_fixture()
+      representative = insert(:representative)
       assert Inspections.get_representative!(representative.id) == representative
     end
 
@@ -181,8 +208,11 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_representative/2 with valid data updates the representative" do
-      representative = representative_fixture()
-      assert {:ok, %Representative{} = representative} = Inspections.update_representative(representative, @update_attrs)
+      representative = insert(:representative)
+
+      assert {:ok, %Representative{} = representative} =
+               Inspections.update_representative(representative, @update_attrs)
+
       assert representative.address == "some updated address"
       assert representative.cep == "some updated cep"
       assert representative.city == "some updated city"
@@ -197,19 +227,19 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_representative/2 with invalid data returns error changeset" do
-      representative = representative_fixture()
+      representative = insert(:representative)
       assert {:error, %Ecto.Changeset{}} = Inspections.update_representative(representative, @invalid_attrs)
       assert representative == Inspections.get_representative!(representative.id)
     end
 
     test "delete_representative/1 deletes the representative" do
-      representative = representative_fixture()
+      representative = insert(:representative)
       assert {:ok, %Representative{}} = Inspections.delete_representative(representative)
       assert_raise Ecto.NoResultsError, fn -> Inspections.get_representative!(representative.id) end
     end
 
     test "change_representative/1 returns a representative changeset" do
-      representative = representative_fixture()
+      representative = insert(:representative)
       assert %Ecto.Changeset{} = Inspections.change_representative(representative)
     end
   end
@@ -221,22 +251,13 @@ defmodule Vystoria.InspectionsTest do
     @update_attrs %{name: "some updated name"}
     @invalid_attrs %{name: nil}
 
-    def environment_fixture(attrs \\ %{}) do
-      {:ok, environment} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Inspections.create_environment()
-
-      environment
-    end
-
     test "list_environments/0 returns all environments" do
-      environment = environment_fixture()
+      environment = insert(:environment)
       assert Inspections.list_environments() == [environment]
     end
 
     test "get_environment!/1 returns the environment with given id" do
-      environment = environment_fixture()
+      environment = insert(:environment)
       assert Inspections.get_environment!(environment.id) == environment
     end
 
@@ -250,25 +271,25 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_environment/2 with valid data updates the environment" do
-      environment = environment_fixture()
+      environment = insert(:environment)
       assert {:ok, %Environment{} = environment} = Inspections.update_environment(environment, @update_attrs)
       assert environment.name == "some updated name"
     end
 
     test "update_environment/2 with invalid data returns error changeset" do
-      environment = environment_fixture()
+      environment = insert(:environment)
       assert {:error, %Ecto.Changeset{}} = Inspections.update_environment(environment, @invalid_attrs)
       assert environment == Inspections.get_environment!(environment.id)
     end
 
     test "delete_environment/1 deletes the environment" do
-      environment = environment_fixture()
+      environment = insert(:environment)
       assert {:ok, %Environment{}} = Inspections.delete_environment(environment)
       assert_raise Ecto.NoResultsError, fn -> Inspections.get_environment!(environment.id) end
     end
 
     test "change_environment/1 returns a environment changeset" do
-      environment = environment_fixture()
+      environment = insert(:environment)
       assert %Ecto.Changeset{} = Inspections.change_environment(environment)
     end
   end
@@ -280,22 +301,13 @@ defmodule Vystoria.InspectionsTest do
     @update_attrs %{description: "some updated description", name: "some updated name", state: "some updated state"}
     @invalid_attrs %{description: nil, name: nil, state: nil}
 
-    def item_fixture(attrs \\ %{}) do
-      {:ok, item} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Inspections.create_item()
-
-      item
-    end
-
     test "list_items/0 returns all items" do
-      item = item_fixture()
+      item = insert(:item)
       assert Inspections.list_items() == [item]
     end
 
     test "get_item!/1 returns the item with given id" do
-      item = item_fixture()
+      item = insert(:item)
       assert Inspections.get_item!(item.id) == item
     end
 
@@ -311,7 +323,7 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_item/2 with valid data updates the item" do
-      item = item_fixture()
+      item = insert(:item)
       assert {:ok, %Item{} = item} = Inspections.update_item(item, @update_attrs)
       assert item.description == "some updated description"
       assert item.name == "some updated name"
@@ -319,20 +331,86 @@ defmodule Vystoria.InspectionsTest do
     end
 
     test "update_item/2 with invalid data returns error changeset" do
-      item = item_fixture()
+      item = insert(:item)
       assert {:error, %Ecto.Changeset{}} = Inspections.update_item(item, @invalid_attrs)
       assert item == Inspections.get_item!(item.id)
     end
 
     test "delete_item/1 deletes the item" do
-      item = item_fixture()
+      item = insert(:item)
       assert {:ok, %Item{}} = Inspections.delete_item(item)
       assert_raise Ecto.NoResultsError, fn -> Inspections.get_item!(item.id) end
     end
 
     test "change_item/1 returns a item changeset" do
-      item = item_fixture()
+      item = insert(:item)
       assert %Ecto.Changeset{} = Inspections.change_item(item)
+    end
+  end
+
+  describe "measurers" do
+    alias Vystoria.Inspections.Measurer
+
+    @valid_attrs %{
+      description: "some description",
+      name: "some name",
+      quantity: "some quantity",
+      unit: "some unit"
+    }
+    @update_attrs %{
+      description: "some updated description",
+      name: "some updated name",
+      quantity: "some updated quantity",
+      unit: "some updated unit"
+    }
+    @invalid_attrs %{description: nil, name: nil, quantity: nil, unit: nil}
+
+    test "list_measurers/0 returns all measurers" do
+      measurer = insert(:measurer)
+      assert Inspections.list_measurers() == [measurer]
+    end
+
+    test "get_measurer!/1 returns the measurer with given id" do
+      measurer = insert(:measurer)
+      assert Inspections.get_measurer!(measurer.id) == measurer
+    end
+
+    test "create_measurer/1 with valid data creates a measurer" do
+      assert {:ok, %Measurer{} = measurer} = Inspections.create_measurer(@valid_attrs)
+      assert measurer.description == "some description"
+      assert measurer.name == "some name"
+      assert measurer.quantity == "some quantity"
+      assert measurer.unit == "some unit"
+    end
+
+    test "create_measurer/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Inspections.create_measurer(@invalid_attrs)
+    end
+
+    test "update_measurer/2 with valid data updates the measurer" do
+      measurer = insert(:measurer)
+      assert {:ok, %Measurer{} = measurer} = Inspections.update_measurer(measurer, @update_attrs)
+      assert measurer.description == "some updated description"
+      assert measurer.name == "some updated name"
+      assert measurer.quantity == "some updated quantity"
+      assert measurer.unit == "some updated unit"
+    end
+
+    test "update_measurer/2 with invalid data returns error changeset" do
+      measurer = insert(:measurer)
+      assert {:error, %Ecto.Changeset{}} = Inspections.update_measurer(measurer, @invalid_attrs)
+      assert measurer == Inspections.get_measurer!(measurer.id)
+    end
+
+    test "delete_measurer/1 deletes the measurer" do
+      measurer = insert(:measurer)
+      assert {:ok, %Measurer{}} = Inspections.delete_measurer(measurer)
+      assert_raise Ecto.NoResultsError, fn -> Inspections.get_measurer!(measurer.id) end
+    end
+
+    test "change_measurer/1 returns a measurer changeset" do
+      measurer = insert(:measurer)
+      assert %Ecto.Changeset{} = Inspections.change_measurer(measurer)
     end
   end
 end

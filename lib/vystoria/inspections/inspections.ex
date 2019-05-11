@@ -485,4 +485,100 @@ defmodule Vystoria.Inspections do
   def change_item(%Item{} = item) do
     Item.changeset(item, %{})
   end
+
+  alias Vystoria.Inspections.Measurer
+
+  @doc """
+  Returns the list of measurers.
+
+  ## Examples
+
+      iex> list_measurers()
+      [%Measurer{}, ...]
+
+  """
+  def list_measurers do
+    Repo.all(Measurer)
+  end
+
+  @doc """
+  Gets a single measurer.
+
+  Raises `Ecto.NoResultsError` if the Measurer does not exist.
+
+  ## Examples
+
+      iex> get_measurer!(123)
+      %Measurer{}
+
+      iex> get_measurer!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_measurer!(id), do: Repo.get!(Measurer, id)
+
+  @doc """
+  Creates a measurer.
+
+  ## Examples
+
+      iex> create_measurer(%{field: value})
+      {:ok, %Measurer{}}
+
+      iex> create_measurer(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_measurer(attrs \\ %{}) do
+    %Measurer{}
+    |> Measurer.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a measurer.
+
+  ## Examples
+
+      iex> update_measurer(measurer, %{field: new_value})
+      {:ok, %Measurer{}}
+
+      iex> update_measurer(measurer, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_measurer(%Measurer{} = measurer, attrs) do
+    measurer
+    |> Measurer.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Measurer.
+
+  ## Examples
+
+      iex> delete_measurer(measurer)
+      {:ok, %Measurer{}}
+
+      iex> delete_measurer(measurer)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_measurer(%Measurer{} = measurer) do
+    Repo.delete(measurer)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking measurer changes.
+
+  ## Examples
+
+      iex> change_measurer(measurer)
+      %Ecto.Changeset{source: %Measurer{}}
+
+  """
+  def change_measurer(%Measurer{} = measurer) do
+    Measurer.changeset(measurer, %{})
+  end
 end

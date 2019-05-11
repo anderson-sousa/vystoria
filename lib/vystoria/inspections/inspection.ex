@@ -9,7 +9,7 @@ defmodule Vystoria.Inspections.Inspection do
     belongs_to :user, Vystoria.Accounts.User
     has_many :places, Vystoria.Inspections.Place
     has_many :representatives, Vystoria.Inspections.Representative
-    has_many :environment, Vystoria.Inspections.Environment
+    has_many :measurers, Vystoria.Inspections.Measurer
 
     timestamps()
   end
