@@ -49,10 +49,12 @@ defmodule Vystoria.Inspections do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_inspection(attrs \\ %{}) do
-    %Inspection{}
-    |> Inspection.changeset(attrs)
-    |> Repo.insert()
+  def create_inspection(user, attrs \\ %{}) do
+    Repo.transaction(fn ->
+      inspection = %Inspection{}
+      |> Inspection.changeset(%{attrs | user_id: user.id})
+      |> Repo.insert()
+    end)
   end
 
   @doc """

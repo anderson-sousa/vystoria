@@ -413,4 +413,61 @@ defmodule Vystoria.InspectionsTest do
       assert %Ecto.Changeset{} = Inspections.change_measurer(measurer)
     end
   end
+
+  describe "inspections" do
+    alias Vystoria.Inspections.Inspection
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def inspection_fixture(attrs \\ %{}) do
+      {:ok, inspection} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Inspections.create_inspection()
+
+      inspection
+    end
+
+    test "list_inspections/0 returns all inspections" do
+      inspection = inspection_fixture()
+      assert Inspections.list_inspections() == [inspection]
+    end
+
+    test "get_inspection!/1 returns the inspection with given id" do
+      inspection = inspection_fixture()
+      assert Inspections.get_inspection!(inspection.id) == inspection
+    end
+
+    test "create_inspection/1 with valid data creates a inspection" do
+      assert {:ok, %Inspection{} = inspection} = Inspections.create_inspection(@valid_attrs)
+    end
+
+    test "create_inspection/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Inspections.create_inspection(@invalid_attrs)
+    end
+
+    test "update_inspection/2 with valid data updates the inspection" do
+      inspection = inspection_fixture()
+      assert {:ok, %Inspection{} = inspection} = Inspections.update_inspection(inspection, @update_attrs)
+    end
+
+    test "update_inspection/2 with invalid data returns error changeset" do
+      inspection = inspection_fixture()
+      assert {:error, %Ecto.Changeset{}} = Inspections.update_inspection(inspection, @invalid_attrs)
+      assert inspection == Inspections.get_inspection!(inspection.id)
+    end
+
+    test "delete_inspection/1 deletes the inspection" do
+      inspection = inspection_fixture()
+      assert {:ok, %Inspection{}} = Inspections.delete_inspection(inspection)
+      assert_raise Ecto.NoResultsError, fn -> Inspections.get_inspection!(inspection.id) end
+    end
+
+    test "change_inspection/1 returns a inspection changeset" do
+      inspection = inspection_fixture()
+      assert %Ecto.Changeset{} = Inspections.change_inspection(inspection)
+    end
+  end
 end

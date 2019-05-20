@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<role name="vystoria"
+      createdb="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="codechallengebackend"
+      superuser="true"
+      createdb="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="vystoria_dev" encoding="UTF8" lc-collate="en_US.UTF-8" lc-ctype="en_US.UTF-8" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="schema_migrations">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="60"/>
+	<column name="version" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="schema_migrations_pkey" type="pk-constr" table="public.schema_migrations">
+		<columns names="version" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="users_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="users">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="540" y="60"/>
+	<column name="id" not-null="true" sequence="public.users_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="first_name" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="last_name" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="is_active" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="is_push_notifications_activated" not-null="true" default-value="true">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="is_email_notifications_activated" not-null="true" default-value="true">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="password_hash" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="users_pkey" type="pk-constr" table="public.users">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="users_email_index" table="public.users"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="email"/>
+		</idxelement>
+</index>
+
+<sequence name="sessions_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="sessions">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="180"/>
+	<column name="id" not-null="true" sequence="public.sessions_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="token" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="revoked" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="revoked_at">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="user_id" not-null="true">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="sessions_pkey" type="pk-constr" table="public.sessions">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="sessions_token_index" table="public.sessions"
+	 concurrent="false" unique="true" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="token"/>
+		</idxelement>
+</index>
+
+<index name="sessions_user_id_index" table="public.sessions"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="user_id"/>
+		</idxelement>
+</index>
+
+<sequence name="photos_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="photos">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1300" y="40"/>
+	<column name="id" not-null="true" sequence="public.photos_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="url">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="user_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="photos_pkey" type="pk-constr" table="public.photos">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="inspections_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="inspections">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="660" y="360"/>
+	<column name="id" not-null="true" sequence="public.inspections_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="status">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="motivation">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="user_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="inspections_pkey" type="pk-constr" table="public.inspections">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="places_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="places">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="440"/>
+	<column name="id" not-null="true" sequence="public.places_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="address">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="number">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="city">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="state">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="type">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="flors">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="complement">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="cep">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="inspection_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="places_pkey" type="pk-constr" table="public.places">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="representatives_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="representatives">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1100" y="520"/>
+	<column name="id" not-null="true" sequence="public.representatives_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="type">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="cpf">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="phone">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="email">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="address">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="number">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="city">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="state">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="complement">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="cep">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="inspection_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="representatives_pkey" type="pk-constr" table="public.representatives">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="environments_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="environments">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="560" y="680"/>
+	<column name="id" not-null="true" sequence="public.environments_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="inspection_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="environments_pkey" type="pk-constr" table="public.environments">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="items_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="items">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="160" y="780"/>
+	<column name="id" not-null="true" sequence="public.items_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="state">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="description">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="environment_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="items_pkey" type="pk-constr" table="public.items">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="measurers_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="measurers">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1280" y="240"/>
+	<column name="id" not-null="true" sequence="public.measurers_id_seq">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="description">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="quantity">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="unit">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="inspection_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="inserted_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0" precision="0"/>
+	</column>
+	<constraint name="measurers_pkey" type="pk-constr" table="public.measurers">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="sessions_user_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.users" table="public.sessions">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="photos_user_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.users" table="public.photos">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="inspections_user_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.users" table="public.inspections">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="places_inspection_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.inspections" table="public.places">
+	<columns names="inspection_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="representatives_inspection_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.inspections" table="public.representatives">
+	<columns names="inspection_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="environments_inspection_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.inspections" table="public.environments">
+	<columns names="inspection_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="items_environment_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.environments" table="public.items">
+	<columns names="environment_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="measurers_inspection_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.inspections" table="public.measurers">
+	<columns names="inspection_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_sessions_users" type="relfk"
+	 custom-color="#4ac693"
+	 src-table="public.sessions"
+	 dst-table="public.users" reference-fk="sessions_user_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_photos_users" type="relfk"
+	 custom-color="#b79676"
+	 src-table="public.photos"
+	 dst-table="public.users" reference-fk="photos_user_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_inspections_users" type="relfk"
+	 custom-color="#2689bd"
+	 src-table="public.inspections"
+	 dst-table="public.users" reference-fk="inspections_user_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_places_inspections" type="relfk"
+	 custom-color="#fc6b27"
+	 src-table="public.places"
+	 dst-table="public.inspections" reference-fk="places_inspection_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_representatives_inspections" type="relfk"
+	 custom-color="#afd2c5"
+	 src-table="public.representatives"
+	 dst-table="public.inspections" reference-fk="representatives_inspection_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_environments_inspections" type="relfk"
+	 custom-color="#307d85"
+	 src-table="public.environments"
+	 dst-table="public.inspections" reference-fk="environments_inspection_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_items_environments" type="relfk"
+	 custom-color="#38c60b"
+	 src-table="public.items"
+	 dst-table="public.environments" reference-fk="items_environment_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_measurers_inspections" type="relfk"
+	 custom-color="#45df96"
+	 src-table="public.measurers"
+	 dst-table="public.inspections" reference-fk="measurers_inspection_id_fkey"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>

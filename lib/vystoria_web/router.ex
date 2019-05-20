@@ -51,6 +51,7 @@ defmodule VystoriaWeb.Router do
     if Mix.env() == :prod, do: pipe_through(:logging)
 
     get "/users/me", UserController, :show
+    post "/inspections", InspectionController, :create
 
     scope "/sessions" do
       delete "/sign_out", SessionController, :delete
